@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    {{ presentation.theme }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <p>Тема презентації: {{ presentation.theme }}</p>
+        <p>Автор: {{ presentation.author }}</p>
+        <p>Тип презентації: {{ presentation.typeOfPresentation }}</p>
+        <p>Час отримання: {{ presentation.time }}</p>
+        <p>Посилання на презентацію: <a href="{{ presentation.link }}" class='btn btn-link'>Презентація</a></p>
+    </div>
+{% endblock %}

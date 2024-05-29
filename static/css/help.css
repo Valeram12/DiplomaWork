@@ -1,0 +1,19 @@
+.slide2 {
+    background-color: #A5B5DF;
+    z-index: 0;
+}
+
+.slide3 p, .slide2 p, .slide2 h2, .slide2 h1 {
+    color: black;
+    text-shadow: none;
+}
+
+p {
+    text-indent: 2em; /* Відступ першого рядка в абзаці */
+}
+
+ol li{
+    color:black;
+    font-size: 20px;
+    font-family: Yeseva One, serif;
+}

@@ -1,0 +1,216 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    Змінення інформації про презентацію
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center m-2">Змініть свою презентацію нижче:</h1>
+        <div class="container">
+            <form method="post">
+                {% csrf_token %}
+                <div class="formEditPres row">
+                    <div class="col-lg-12 col-xl position-relative">
+                        <div class="inp">
+                            <div class="form-group row">
+                                <h5 class="col-xs-4 col-md-3 d-flex  align-items-center">Назва презентації :</h5>
+                                <div class="col">
+                                    <div class="formdb  border border-primary m-1">
+                                        <input class="input" placeholder="Назва презентації" type="text"
+                                               name="{{ form.title.name }}"
+                                               id="title" value="{{ form.title.value }}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h5 class="col-xl-5 col-md-6 col-sm d-flex align-items-center">
+                                    Визначити посилання:
+                                </h5>
+                                <div class="col d-flex align-items-center form-check form-switch">
+                                    <input type="checkbox" name="{{ form.is_auto_link.name }}" class="form-check-input"
+                                           id="is_auto_link">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h5 class="col-xs-4 col-md-3 d-flex  align-items-center">Посилання :</h5>
+                                <div class="col">
+                                    <div class="formdb  border border-primary m-1">
+                                        <input class="input" placeholder="Посилання" type="text"
+                                               name="{{ form.link.name }}"
+                                               id="link" value="{{ form.link.value }}">
+                                        <button class="reset" onclick="resetInput(`link`)" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if request.user.is_superuser %}
+                                <div class="form-group row">
+                                    <h5 class="col-xs-4 col-md-3 d-flex  align-items-center">Оцінка :</h5>
+                                    <div class="col">
+                                        <div class="formdb  border border-primary m-1">
+                                            <input class="input" placeholder="Оцінка" type="text"
+                                                   name="{{ form.rating.name }}"
+                                                   id="rating" value="{{ form.rating.value }}">
+                                            <button class="reset" onclick="resetInput(`rating`)" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <input type="hidden" name="{{ form.rating.name }}" value="Не перевірено">
+                            {% endif %}
+                            <div class="form-group row">
+                                <h5 class="col-xs-4 col-md-3 d-flex  align-items-center">Примітка :</h5>
+                                <div class="col">
+                                    <div class="formdb  border border-primary m-1">
+                                        <input class="input" placeholder="Примітка" type="text"
+                                               name="{{ form.notes.name }}"
+                                               id="notes" value="{{ form.notes.value }}">
+                                        <button class="reset" onclick="resetInput(`notes`)" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h5 class="col-xl-5 col-md-6 col-sm d-flex align-items-center">
+                                    Автоматично
+                                    визначити вміст :
+                                </h5>
+                                <div class="col d-flex align-items-center form-check form-switch">
+                                    <input type="checkbox" name="{{ form.is_auto.name }}" class="form-check-input"
+                                           id="is_auto">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <h5 class="col-xs-4 col-md-3 d-flex align-items-center">Вміст :</h5>
+                                <div class="col">
+                                    <div class="formdb  border border-primary m-1">
+                                        <input class="input" placeholder="Вміст" type="text"
+                                               name="{{ form.group.name }}"
+                                               id="group" value="{{ form.group.value }}">
+                                        <button class="reset" onclick="resetInput('group')" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                 viewBox="0 0 24 24"
+                                                 stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M6 18L18 6M6 6l12 12"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-2 ">
+                                    <button class="btn btn-success mt-3" type="submit" onclick="loadingWindow()">
+                                        Відправити
+                                    </button>
+                                </div>
+                            </div>
+                            {% if success %}
+                                <div class="col ">
+                                    <a href="{% url 'database' %}">
+                                        <button type="button" class="btn btn-info mt-3">Переглянути БД</button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                            <h3 class="text-danger">{{ error }} </h3>
+                            <h3 class="text-success">{{ success }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="load">
+            <div class="loader">Завантаження...</div>
+            <div class="loadtext">
+                <p>
+                    Ми завантажуємо та обробляємо Вашу презентацію. Будь ласка, зачекайте трохи, це може зайняти деякий
+                    час. <br>Дякуємо за ваше терпіння!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function resetInput(name) {
+            if (!document.getElementById("id_is_auto").checked) {
+                if (!document.getElementById("id_is_auto_link").checked) {
+                    document.getElementById(name).value = '';
+                }
+            }
+
+        }
+
+
+        document.getElementById("is_auto_link").addEventListener("click", function () {
+            document.getElementById('link').readOnly = !!document.getElementById("is_auto_link").checked;
+            let isAutoChecked = document.getElementById("is_auto_link").checked;
+
+            if (isAutoChecked && document.getElementById('link').value == '') {
+                document.getElementById('link').value = "Посилання";
+            } else if (document.getElementById('link').value == "Посилання") {
+                document.getElementById('link').value = "";
+            }
+
+        })
+
+        document.getElementById("is_auto").addEventListener("click", function () {
+            document.getElementById('group').readOnly = !!document.getElementById("is_auto").checked;
+            let isAutoChecked = document.getElementById("is_auto").checked;
+
+            if (isAutoChecked && document.getElementById('group').value == '') {
+                document.getElementById('group').value = "Вміст";
+            } else if (document.getElementById('group').value == "Вміст") {
+                document.getElementById('group').value = "";
+            }
+
+        })
+
+
+        function loadingWindow() {
+            if (checkInputs()) {
+                document.getElementById("loading-overlay").style.display = "block";
+            }
+
+        }
+
+        function checkInputs() {
+            var inputs = document.querySelectorAll('input');
+            var isValid = true;
+            inputs.forEach(function (input) {
+                if (input.value.trim() === '') {
+                    isValid = false;
+                }
+            });
+            return isValid;
+        }
+
+    </script>
+{% endblock %}

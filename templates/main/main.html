@@ -1,0 +1,131 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %}
+    Головна сторінка Presentation Base
+{% endblock %}
+
+{% block content %}
+
+    <div class="slide1" id="slide1">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-5  d-flex flex-column align-items-center text-center s1 ">
+                    <h1 class="element-animation fromLeft">PresentationBase</h1>
+                    <p class="text-center element-animation fromLeft">Найкраща база даних для роботи з
+                        презентаціями!</p>
+                    <a href="{% url 'database' %}" style="z-index: 2;">
+                        <div class="but btn btn-primary mt-5 element-animation fromLeft">
+                            Перейти до бази даних!
+                        </div>
+                    </a>
+
+                </div>
+                <div class=" col-md-7 s1 element-animation fromRight w-50" style="z-index: 3;">
+                    <img alt="PresentationBase" src="{% static 'img/s1img.png' %}">
+                </div>
+            </div>
+            <div class="row " style="margin-top: 50px;">
+                <div class="col-12 d-flex flex-column align-items-center  justify-content-end">
+                    <button class="custom-button btn-primary" onclick="scrollToParagraph('slide2')" style="z-index: 2;">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div id="particles-js"></div>
+    </div>
+
+    <div class="slide2" id="slide2">
+        <div class="container">
+            <div class="row ">
+                <div class="col-12 col-md-3 col-lg-4 col-sm-12 element-animation fromLeft s2Img">
+                    <img alt="Cloud" src="{% static 'img/cloud logo.png' %}">
+                </div>
+
+                <div class="col-12 col-md-9  col-lg-8 col-sm-12 aboutDB element-animation fromDown noHidden">
+                    <h1>Про базу даних</h1>
+                    <br>
+                    <p>База даних створена для швидкої роботи з презентаціями для
+                        студентів та вчителів.</p>
+                    <br>
+                    <p>Ця база даних розроблена з метою забезпечити швидку обробку та доступ до
+                        великої кількості презентацій, які використовуються студентами та вчителями. Вона
+                        дозволяє зберігати, організовувати та ефективно управляти презентаціями,
+                        забезпечуючи зручну навігацію та пошукові можливості.
+                    </p>
+                    <br>
+                    <p>Використовуючи цю базу даних, студенти можуть швидко знаходити потрібні
+                        презентації для своїх уроків або досліджень та додавати свої презентації для їх
+                        перевірки, а вчителі можуть легко зберігати та оновлювати свої навчальні матеріали.</p>
+                </div>
+            </div>
+            <div class="row " style="margin-top: 100px;">
+                <div class="col-12 d-flex flex-column align-items-center  justify-content-end" style="z-index: 2;">
+                    <button class="custom-button btn-primary" onclick="scrollToParagraph('slide3')">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="slide3" id="slide3">
+        <div class="container">
+            <div class="row ">
+                <div class="col-12 mt-5 element-animation fromDown">
+                    <h1 class="text-center mt-5">Функціонал сайту</h1>
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-12 row text-center mt-5">
+                    <div class="col d-flex justify-content-center element-animation fromLeft m-3">
+                        <div class="card">
+                            <img alt="Card image" class="mx-auto d-block mt-5" src="{% static 'img/viewbd.png' %}"
+                                 width="150">
+                            <div class="card-body">
+                                <h2 class="card-title">Перегляд всіх презентацій</h2>
+                                <p class="card-text">Переглядайте презентації в базі даних</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col d-flex justify-content-center element-animation fromDown m-3 ">
+                        <div class="card ">
+                            <img alt="Card image" class="mx-auto d-block mt-5" src="{% static 'img/editbd.png' %}"
+                                 width="150">
+                            <div class="card-body">
+                                <h2 class="card-title">Редагування бази даних</h2>
+                                <p class="card-text">За потрібності редагуйте базу даних</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col d-flex justify-content-center element-animation fromRight m-3">
+                        <div class="card">
+                            <img alt="Card image" class="mx-auto d-block mt-5" src="{% static 'img/findinbd.png' %}"
+                                 width="150">
+                            <div class="card-body">
+                                <h2 class="card-title">Пошук презентацій у базі даних</h2>
+                                <p class="card-text">Знаходьте свої презентації для швидкої роботи з ними</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 " style="margin-top: 50px;">
+                <div class="col-12 d-flex flex-column align-items-center  justify-content-end" style="z-index: 2;">
+                    <button class="custom-button btn-primary" onclick="scrollToParagraph('slide1')">
+                        <i class="fas fa-chevron-up"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.waves.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+{% endblock %}

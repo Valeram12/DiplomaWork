@@ -1,0 +1,207 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/mainPage.css' %}" type="text/css">
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/9dc2e0be99.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.svg' %}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<div class="navbarbg">
+    <div class="container">
+        <div class="row navbar navbar-expand-lg text-center ">
+
+            <div class="col-1 col-xl-2 me-3 ms-3">
+                <a href="{% url 'database' %}">
+                    <img alt="PresentationBase" class="textNav" src="{% static 'img/logo.svg' %}" width="160">
+                </a>
+            </div>
+
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                    class="col-1 navbar-toggler "
+                    data-bs-target="#navbarToggleExternalContent" data-bs-toggle="collapse" type="button">
+                <span class="navbar-toggler-icon "></span>
+            </button>
+
+            <div class=" collapse navbar-collapse" id="navbarToggleExternalContent">
+                <div class="col-6 col-lg-9 offset-lg-1 offset-xl-0 col-xl-6 row">
+
+                    <div class="col col-lg mt-2 m-lg-0 ms-3">
+                        <a href="{% url 'home' %}">
+                            <div class="textNav">Головна</div>
+                        </a>
+                    </div>
+                    <div class="col col-lg mt-2 m-lg-0 ms-3">
+                        {% if request.user.is_authenticated %}
+                            <a href="{% url 'addPresenatation' %}">
+                                <div class="text-nowrap textNav">Додати презентацію</div>
+                            </a>
+                        {% else %}
+                            <div class="text-nowrap disabled textNav">Додати презентацію</div>
+                        {% endif %}
+                    </div>
+                    <div class="col col-lg mt-2 mb-2 m-lg-0 ms-3">
+                        <a href="{% url 'help' %}">
+                            <div class="textNav">Корисне</div>
+                        </a>
+                    </div>
+
+                </div>
+
+                {% if request.user.is_authenticated %}
+                    <div class="dropdown col-1 offset-0 offset-xl-3" style="z-index:100;">
+                        <button class="circle-container textNav ms-3 dropdown-toggle" style="border: none;"
+                                type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                            <img alt="Акаунт" height="30" src="{% static 'img/Account.svg' %}"
+                                 width="30">
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" style="background-color: #FFB37D; "
+                            aria-labelledby="dropdownMenuButton1">
+                            {% if request.user.is_superuser %}
+                                <li><a class="textNav m-1 text-decoration-none" style="border-radius:20px" href="/admin/">Панель
+                                    адміністратора</a></li>
+
+                                <li><a href="{% url 'user' %}" style="border-radius:20px" class="textNav m-1">Управління
+                                    користувачами</a></li>
+                            {% endif %}
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="textNav m-1" style="border-radius:20px; border: none">Вийти
+                                    з акаунта
+                                </button>
+                            </form>
+
+                        </ul>
+                    </div>
+
+                {% else %}
+                    <div class=" col col-lg mt-2 mb-2 m-lg-0 ms-3 d-lg-block d-flex">
+                        <a href="{% url 'register' %}"
+                           class=" textNavL  m-1  " style="border-radius:20px">Зареєструватися</a>
+                        <a href="{% url 'login' %}"
+                           class=" textNavL m-1 me-5   " style="border-radius:20px">Авторизуватися</a>
+                    </div>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% block content %}
+{% endblock %}
+
+<footer class="text-center text-lg-start text-white mt-auto bg-footer ">
+    <div class="container p-4 pb-0">
+        <section class="">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <img alt="logo" class="d-inline-block pb-1" height="50" src="{% static 'img/logo.svg' %}"
+                         width="150">
+                    <p>
+                        Цей сайт було створено для роботи з великою кількістю презентацій.
+                        Реалізовані такі можливості: перегляд інформації про презентації, додавання нових презентацій
+                        до бази даних, пошук по базі даних, редагування та видалення записів.
+                    </p>
+                </div>
+
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">
+                        Корисні посилання
+                    </h6>
+                    <p>
+                        <a class="text-white" href="{% url 'database' %}">База даних</a>
+                    </p>
+                    <p>
+                        <a class="text-white" href="{% url 'home' %}">Головна</a>
+                    </p>
+                    <p>
+                        <a class="text-white" href="{% url 'addPresenatation' %}">Додати презентацію</a>
+                    </p>
+                </div>
+
+                <hr class="w-100 clearfix d-md-none"/>
+
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mt-3">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">Контакти</h6>
+                    <p><i class="fas fa-home mr-3"></i>
+                        <a class="text-white"
+                           href="http://ipe.knu.ua/shevchenko-volodymyr-petrovych.html">
+                            Шевченко Володимир Петрович</a>
+                    </p>
+                    <p><i class="fas fa-envelope mr-3"></i> vpsh@unicyb.kiev.ua</p>
+                    <p><i class="fas fa-phone mr-3"></i> +380 44 521 32 40</p>
+                    <p><i class="fas fa-print mr-3"></i> +380 67 443 00 17</p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="my-3">
+
+        <section class="p-3 pt-0">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-7 col-lg-8 text-center text-md-start">
+                    <div class="p-3">
+                        <p class="fs-5">Зробив: Медведчук Валерій</p>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
+                    <a
+                            class="btn btn-outline-light btn-floating  m-1 text-white"
+                            role="button"
+                    ><i class="fab fa-facebook-f"></i
+                    ></a>
+
+                    <a
+                            class="btn btn-outline-light btn-floating m-1 text-white"
+
+                            role="button"
+                    ><i class="fab fa-twitter"></i
+                    ></a>
+
+                    <a
+                            class="btn btn-outline-light btn-floating m-1 text-white"
+                            role="button"
+                    ><i class="fab fa-google"></i
+                    ></a>
+
+                    <a
+                            class="btn btn-outline-light btn-floating m-1 text-white"
+                            role="button"
+                    ><i class="fab fa-instagram"></i
+                    ></a>
+                </div>
+            </div>
+        </section>
+    </div>
+</footer>
+
+
+<script crossorigin="anonymous"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js">
+</script>
+<script crossorigin="anonymous"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js">
+</script>
+<script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/front.js' %}"></script>
+</body>
+</html>

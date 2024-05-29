@@ -1,0 +1,94 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %}
+    Головна сторінка Presentation Base
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid mainphoto">
+        <div class="row align-items-center" style="height: 300px;">
+            <div class="col text-center text-white ">
+                <h3 style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">PresentationBase</h3>
+                <p class="lead" style="text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);">Найкраща база даних для роботи з
+                    презентаціями!</p>
+                <a href="{% url 'database' %}" class="btn btn-primary">До бази даних</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <img src="{% static 'img/im1.svg' %}" alt="База даних" class="img-fluid">
+            </div>
+            <div class="col-lg-6">
+                <h3>Про базу даних</h3>
+                <p class="lead">База даних створена для швидкої роботи з презентаціями для студентів та вчителів.</p>
+                <p>Ця база даних розроблена з метою забезпечити швидку обробку та доступ до великої кількості
+                    презентацій, які використовуються студентами та вчителями. Вона дозволяє зберігати, організовувати
+                    та ефективно управляти презентаціями, забезпечуючи зручну навігацію та пошукові можливості.</p>
+                <p>Використовуючи цю базу даних, студенти можуть швидко знаходити потрібні презентації для своїх уроків
+                    або досліджень та додавати свої презентації для їх перевірки, а вчителі можуть легко зберігати та оновлювати свої навчальні матеріали. </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid bg-light funcdb">
+        <div class="container py-5">
+            <h1 class="text-center pb-5">Функціонал сайту</h1>
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <a href="{% url 'database' %}" class="card-link">
+                        <div class="card shadow h-100">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Перегляд бази даних</h5>
+                                <p class="card-text">Увійдіть до свого облікового запису, щоб переглянути базу даних</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-md-6 ">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Редагування бази даних</h5>
+                            <p class="card-text">Тільки вчителі або адміністратори бази даних можуть редагувати її вміст</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 ">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'addPresenatation' %}" class="card-link">
+                            <div class="card shadow h-100">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Додавання презентації до бази даних</h5>
+                                    <p class="card-text">Ви зможете легко здати свою презентацію вчителю, якщо додасте її до бази даних
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    {% else %}
+                        <div class="card card-body ">
+                            <h5 class="text-center">Додавання презентації до бази даних</h5>
+                            <p>Ви зможете легко здати свою презентацію вчителю, якщо додасте її до бази даних бд</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class=" col-md-6  ">
+                    <div class="card card-body">
+                        <h5 class="text-center">Пошук у базі даних</h5>
+                        <p>Ви можете здійснювати пошук у базі даних</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

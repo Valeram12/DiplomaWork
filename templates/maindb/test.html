@@ -1,0 +1,228 @@
+{% extends 'main/layout.html' %}
+{% block title %}
+    SlideBase
+{% endblock %}
+{% block content %}
+    {% if object_list or object_list_sql %}
+        <div class="container mt-5">
+            <h3>Результати пошуку</h3>
+            {% if request.user.is_authenticated %}
+                {% if object_list %}
+                    <div class="table-responsive">
+                        <table class="table table-success " id="table1">
+                            <thead class="thead border-dark">
+                            <tr>
+                                <th onclick="sortTable(0)" id="title">Назва презентації:</th>
+                                <th onclick="sortTable(1)" id="author">Автор:</th>
+                                <th onclick="sortTable(2)" id="group">Група:</th>
+                                <th onclick="sortTable(3)" id="date">Час завантаженя:</th>
+                                <th onclick="sortTable(2)" id="notes">Примітка:</th>
+                                <th onclick="sort('table1',4)" id="rating">Оцінка:
+                                </th>
+
+                                <th onclick="sortTable(5)" id="link">Посилання на презентацію:</th>
+                                <th colspan="2"></th>
+                            </tr>
+                            </thead>
+                            {% for el in object_list %}
+                                <tr>
+                                    <td>{{ el.title }}</td>
+                                    <td>{{ el.author }}</td>
+                                    <td>{{ el.group }}</td>
+                                    <td>{{ el.time }}</td>
+                                    <td>{{ el.notes }}</td>
+                                    <td>{{ el.rating }}</td>
+                                    {% if request.user.is_superuser %}
+                                        <td><a href="{{ el.link }}"
+                                               class="btn btn-success btn-outline-light btn-floating"> Посилання</a>
+                                        </td>
+                                        <td><a href="{% url 'updatePr' el.id %}"
+                                               class="btn btn-success btn-outline-light btn-floating"><i
+                                                class="fa-regular fa-pen-to-square"></i></a></td>
+                                        <td><a href="delete/{{ el.id }}"
+                                               class="btn btn-success btn-outline-light btn-floating"><i
+                                                class="fa-regular fa-trash-can"></i></a>
+                                            {% else %}
+                                        <td><a class="btn btn-warning "> Посилання</a></td>
+                                        <td><a class="btn btn-warning btn-outline-light btn-floating"><i
+                                                class="fa-regular fa-pen-to-square"></i></a></td>
+                                        <td><a class="btn btn-warning btn-outline-light btn-floating"><i
+                                                class="fa-regular fa-trash-can"></i></a></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+
+                {% elif object_list_sql %}
+                    <div class="table-responsive">
+                        <table class="table table-success " id="table1">
+                            <thead class="thead border-dark">
+                            <tr>
+                                <th onclick="sortTable(0)" id="title">Назва презентації:</th>
+                                <th onclick="sortTable(1)" id="author">Автор:</th>
+                                <th onclick="sortTable(2)" id="group">Група:</th>
+                                <th onclick="sortTable(3)" id="date">Час завантаженя:</th>
+                                <th onclick="sortTable(2)" id="notes">Примітка:</th>
+                                <th onclick="sort('table1',4)" id="rating">Оцінка:</th>
+                                <th onclick="sortTable(5)" id="link">Посилання на презентацію:</th>
+                                <th colspan="2"></th>
+                            </tr>
+                            </thead>
+                            {% for el in object_list_sql %}
+                                <tr>
+                                    <td>{{ el.title }}</td>
+                                    <td>{{ el.author }}</td>
+                                    <td>{{ el.group }}</td>
+                                    <td>{{ el.time }}</td>
+                                    <td>{{ el.notes }}</td>
+                                    <td>{{ el.rating }}</td>
+                                    {% if request.user.is_superuser %}
+                                        <td><a href="{{ el.link }}"
+                                               class="btn btn-success btn-outline-light btn-floating"> Посилання</a>
+                                        </td>
+                                        <td><a href="{% url 'updatePr' el.id %}"
+                                               class="btn btn-success btn-outline-light btn-floating"><i
+                                                class="fa-regular fa-pen-to-square"></i></a></td>
+                                        <td><a href="delete/{{ el.id }}"
+                                               class="btn btn-success btn-outline-light btn-floating"><i
+                                                class="fa-regular fa-trash-can"></i></a>
+                                            {% else %}
+                                        <td><a class="btn btn-warning "> Посилання</a></td>
+                                        <td><a class="btn btn-warning btn-outline-light btn-floating"><i
+                                                class="fa-regular fa-pen-to-square"></i></a></td>
+                                        <td><a class="btn btn-warning btn-outline-light btn-floating"><i
+                                                class="fa-regular fa-trash-can"></i></a></td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% else %}
+                    <p>Пошук не приніс результатів!</p>
+                {% endif %}
+            {% else %}
+                <div class="container mt-3">
+                    <h1>Ви не зареєстровані!</h1>
+                </div>
+            {% endif %}
+            <a href="{% url 'database' %}" class="btn btn-success mb-3">Повернутися до БД</a>
+        </div>
+
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+        {% if pres %}
+            <div class="container mt-3">
+            <h1>Сторінка бази даних PresentationBase</h1>
+
+            <form class="form  border border-primary" action="{% url 'search_results' %}" method="get">
+                <button>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+                         aria-labelledby="search">
+                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                              stroke="currentColor" stroke-width="1.333" stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+                <input class="input" placeholder="Найти по темі" required="" type="text" name="q">
+                <button class="reset" type="reset">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </form>
+            <br>
+            <p>Запит за допомогою sql:</p>
+            <form class="form w-75 border border-primary" action="{% url 'searchsql_results' %}" method="get">
+                <button>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+                         aria-labelledby="search">
+                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                              stroke="currentColor" stroke-width="1.333" stroke-linecap="round"
+                              stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+                <input class="input w-100" placeholder="Sql запит" required="" type="text" name="sql" id="SQLInput">
+                <button class="reset" type="reset">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </form>
+            <p>
+                <br>
+                <button onclick="SQLBuilder(1)" class="sqlbtn"><span class="button_top"> SELECT *</span></button>
+                <button onclick="SQLBuilder(2)" class="sqlbtn"><span class="button_top">WHERE</span></button>
+                <button onclick="SQLBuilder(3)" class="sqlbtn"><span class="button_top">Тема презентації =</span>
+                </button>
+                <button onclick="SQLBuilder(4)" class="sqlbtn"><span class="button_top">Автор презентації =</span>
+                </button>
+                <button onclick="SQLBuilder(5)" class="sqlbtn"><span class="button_top">Вид презентації =</span>
+                </button>
+                <button onclick="SQLBuilder(6)" class="sqlbtn"><span class="button_top">Час завантаженя =</span>
+                </button>
+                <button onclick="SQLBuilder(10)" class="sqlbtn"><span class="button_top">Оцінка =</span>
+                </button>
+                <button onclick="SQLBuilder(7)" class="sqlbtn"><span class="button_top">AND</span></button>
+                <button onclick="SQLBuilder(8)" class="sqlbtn"><span class="button_top">OR</span></button>
+                <button onclick="SQLBuilder(9)" class="sqlbtn"><span class="button_top">NOT</span></button>
+            </p>
+            <div class="table-responsive">
+                <table class="table table-success " id="table1">
+                    <thead class="thead border-dark">
+                    <tr>
+                        <th onclick="sortTable(0)" id="title">Назва презентації:</th>
+                        <th onclick="sortTable(1)" id="author">Автор:</th>
+                        <th onclick="sortTable(2)" id="group">Група:</th>
+                        <th onclick="sortTable(3)" id="date">Час завантаженя:</th>
+                        <th onclick="sortTable(2)" id="notes">Примітка:</th>
+                        <th onclick="sort('table1',4)" id="rating">Оцінка:
+                        </th>
+
+                        <th onclick="sortTable(5)" id="link">Посилання на презентацію:</th>
+                        <th colspan="2"></th>
+                    </tr>
+                    </thead>
+                    {% for el in pres %}
+                        <tr>
+                            <td>{{ el.title }}</td>
+                            <td>{{ el.author }}</td>
+                            <td>{{ el.group }}</td>
+                            <td>{{ el.time }}</td>
+                            <td>{{ el.notes }}</td>
+                            <td>{{ el.rating }}</td>
+                            {% if request.user.is_superuser %}
+                                <td><a href="{{ el.link }}"
+                                       class="btn btn-success btn-outline-light btn-floating"> Посилання</a>
+                                </td>
+                                <td><a href="{% url 'updatePr' el.id %}"
+                                       class="btn btn-success btn-outline-light btn-floating"><i
+                                        class="fa-regular fa-pen-to-square"></i></a></td>
+                                <td><a href="delete/{{ el.id }}"
+                                       class="btn btn-success btn-outline-light btn-floating"><i
+                                        class="fa-regular fa-trash-can"></i></a>
+                                    {% else %}
+                                <td><a class="btn btn-warning "> Посилання</a></td>
+                                <td><a class="btn btn-warning btn-outline-light btn-floating"><i
+                                        class="fa-regular fa-pen-to-square"></i></a></td>
+                                <td><a class="btn btn-warning btn-outline-light btn-floating"><i
+                                        class="fa-regular fa-trash-can"></i></a></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <h3 class="container">Бази даних немає!</h3>
+        {% endif %}
+    {% else %}
+        <div class="container mt-3">
+            <h1>Ви не зареєстровані!</h1>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

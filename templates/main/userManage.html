@@ -1,0 +1,232 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %}
+    SlideBase
+{% endblock %}
+{% block content %}
+    {{ users }}
+    {% if request.user.is_authenticated %}
+        <div class="container mt-3">
+        {% if page_obj %}
+
+            {% if typeOfContent == 'user_manage' %}
+                <h1>Управління користувачами</h1>
+                <form action="{% url 'search_results_users' %}" method="get">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="formdb  border border-primary m-1">
+                                <button>
+                                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                         role="img"
+                                         aria-labelledby="search">
+                                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                                              stroke="currentColor" stroke-width="1.333" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                    </svg>
+                                </button>
+                                <input class="input" placeholder="Прізвище" type="text" name="last_name"
+                                       id="last_name">
+                                <button class="reset" onclick="resetInput(`last_name`)" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                                <input type="hidden" name="search_type" value="author">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="formdb border border-primary m-1">
+                                <button>
+                                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                         role="img"
+                                         aria-labelledby="search">
+                                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                                              stroke="currentColor" stroke-width="1.333" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                    </svg>
+                                </button>
+                                <input class="input" placeholder="Ім'я" type="text"
+                                       name="first_name"
+                                       id="first_name">
+                                <button class="reset" onclick="resetInput(`first_name`)" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                                <input type="hidden" name="search_type" value="title">
+                            </div>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="formdb  border border-primary m-1">
+                                <button>
+                                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                         role="img"
+                                         aria-labelledby="search">
+                                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                                              stroke="currentColor" stroke-width="1.333" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                    </svg>
+                                </button>
+                                <input class="input" placeholder="Ім'я користувача" type="text" name="username"
+                                       id="username">
+                                <button class="reset" onclick="resetInput(`username`)" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                                <input type="hidden" name="search_type" value="rating">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="formdb  border border-primary m-1">
+                                <button>
+                                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                         role="img"
+                                         aria-labelledby="search">
+                                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                                              stroke="currentColor" stroke-width="1.333" stroke-linecap="round"
+                                              stroke-linejoin="round"></path>
+                                    </svg>
+                                </button>
+                                <input class="input" placeholder="Електронна пошта" type="text" name="email"
+                                       id="email">
+                                <button class="reset" onclick="resetInput(`email`)" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                                <input type="hidden" name="search_type" value="group">
+                            </div>
+                        </div>
+                        <div class="col-1">
+                            <button class="btn btn-primary m-1 me-0 w-100 search-button" type="submit">
+                                Пошук
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            {% elif typeOfContent == 'search' %}
+                <h3>Результати пошуку</h3>
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table" id="table1">
+                    <thead class="thead border-dark">
+                    <tr>
+                        <th>
+                            {% if sort_by == 'last_name' %}
+                                <a href="?{{ querystring }}&sort_by=-last_name">Прізвище Ім'я:▲</a>
+                            {% elif sort_by == '-last_name' %}
+                                <a href="?{{ querystring }}&sort_by=last_name">Прізвище Ім'я:▼</a>
+                            {% else %}
+                                <a href="?{{ querystring }}&sort_by=-last_name">Прізвище Ім'я:</a>
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if sort_by == 'username' %}
+                                <a href="?{{ querystring }}&sort_by=-username">Ім'я користувача:▲</a>
+                            {% elif sort_by == '-username' %}
+                                <a href="?{{ querystring }}&sort_by=username">Ім'я користувача:▼</a>
+                            {% else %}
+                                <a href="?{{ querystring }}&sort_by=-username">Ім'я користувача:</a>
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if sort_by == 'email' %}
+                                <a href="?{{ querystring }}&sort_by=-email">Електронна пошта:▲</a>
+                            {% elif sort_by == '-email' %}
+                                <a href="?{{ querystring }}&sort_by=email">Електронна пошта:▼</a>
+                            {% else %}
+                                <a href="?{{ querystring }}&sort_by=-email">Електронна пошта:</a>
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if sort_by == 'is_superuser' %}
+                                <a href="?{{ querystring }}&sort_by=-is_superuser">Адміністратор:▲</a>
+                            {% elif sort_by == '-is_superuser' %}
+                                <a href="?{{ querystring }}&sort_by=is_superuser">Адміністратор:▼</a>
+                            {% else %}
+                                <a href="?{{ querystring }}&sort_by=-is_superuser">Адміністратор:</a>
+                            {% endif %}
+                        </th>
+                        <th>
+                            {% if sort_by == 'is_staff' %}
+                                <a href="?{{ querystring }}&sort_by=-is_staff">Довірений користувач:▲</a>
+                            {% elif sort_by == '-is_staff' %}
+                                <a href="?{{ querystring }}&sort_by=is_staff">Довірений користувач:▼</a>
+                            {% else %}
+                                <a href="?{{ querystring }}&sort_by=-is_staff">Довірений користувач:</a>
+                            {% endif %}
+                        </th>
+                        <th colspan="2"></th>
+                    </tr>
+                    </thead>
+
+                    {% for el in page_obj %}
+                        <tr>
+                            <td>{{ el.last_name }} {{ el.first_name }}</td>
+                            <td>{{ el.username }}</td>
+                            <td>{{ el.email }}</td>
+                            <td>{{ el.is_superuser }}</td>
+                            <td>{{ el.is_staff }}</td>
+                            <td class="align-middle text-center"><a href="{% url 'toggle_staff_status' el.id %}"
+                                                                    class="btn btn-success btn-outline-light btn-floating">
+                                Довірений користувач </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            <div class="pagination d-flex justify-content-center mb-3">
+
+                {% if page_obj.has_previous %}
+                    <a href="?{{ querystring }}&sort_by={{ sort_by }}&page={{ page_obj.previous_page_number }}">&lt;</a>
+                {% else %}
+                    <a style="cursor: pointer">&lt;</a>
+                {% endif %}
+
+                {% if page_obj.number|add:'-2' > 1 %}
+                    <a href="?{{ querystring }}&sort_by={{ sort_by }}&page=1">1</a>
+                    <a href="?{{ querystring }}&sort_by={{ sort_by }}&page={{ page_obj.number|add:'-3' }}">&laquo;</a>
+                {% endif %}
+
+                {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <a href="?{{ querystring }}&sort_by={{ sort_by }}&page={{ i }}" class="active">{{ i }}</a>
+                    {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %}
+                        <a href="?{{ querystring }}&sort_by={{ sort_by }}&page={{ i }}">{{ i }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.paginator.num_pages > page_obj.number|add:'2' %}
+                    <a href="?{{ querystring }}&sort_by={{ sort_by }}&page={{ page_obj.number|add:'3' }}">&raquo;</a>
+                    <a href="?{{ querystring }}&sort_by={{ sort_by }}&page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                    <a href="?{{ querystring }}&sort_by={{ sort_by }}&page={{ page_obj.next_page_number }}">&gt;</a>
+                {% else %}
+                    <a style="cursor: pointer">&gt;</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <h3 class="m-5 text-center">Пошук не приніс результату або бази даних немає!</h3>
+        {% endif %}
+    {% else %}
+        <div class="m-5 text-center"><h1>Ви не зареєстровані!</h1></div>
+    {% endif %}
+{% endblock %}

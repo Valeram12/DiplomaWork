@@ -1,0 +1,15 @@
+{% extends "main/layout.html" %}
+{% block title %}Logged out{% endblock %}
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <h1 class="display-5">Ви вийшли зі свого облікового запису.</h1>
+            <p class="lead">Дякуємо за використання нашого сайту. Ви вийшли зі свого облікового запису, для повного
+                користування сайтом, будь ласка, авторизуйтеся або зареєструйтеся</p>
+            <hr class="my-4">
+            <a class="btn btn-primary btn-md" href="{% url 'home' %}" role="button">На головну</a>
+        </div>
+    </div>
+    </div>
+{% endblock %}
